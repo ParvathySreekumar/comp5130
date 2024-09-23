@@ -1,4 +1,5 @@
 require('dotenv').config();
+const productRoutes = require('./routes/productRoutes');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
@@ -9,6 +10,10 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(morgan('dev'));
+
+
+// Use the product routes
+app.use('/api/products', productRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
