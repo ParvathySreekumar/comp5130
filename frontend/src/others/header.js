@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, Modal, Button, Form } from 'react-bootstrap';
 import LoginForm from '../components/LoginForm'; // Import the LoginForm component
+import SignupForm from '../components/SignupForm'; // Import the SignupForm component
 
 function Header() {
     const [show, setShow] = useState(false); // Modal visibility state
+    const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
     const [message, setMessage] = useState(''); // Message to display
 
     const handleClose = () => setShow(false); // Function to close modal
     const handleShow = () => setShow(true);  // Function to open modal
+
+    const toggleForm = () => setIsLogin(!isLogin); // Toggle between login and signup
 
     return (
         <header>
@@ -31,18 +35,24 @@ function Header() {
                 </Container>
             </Navbar>
 
-            {/* Modal for Login */}
+            {/* Modal for Login/Signup */}
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Sign In</Modal.Title>
+                    <Modal.Title>{isLogin ? 'Sign In' : 'Sign Up'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {/* Here's where you include the LoginForm component */}
-                    <LoginForm handleClose={handleClose} setMessage={setMessage} />
+                    {/* Show Login Form if isLogin is true, else show Signup Form */}
+                    {isLogin ? (
+                        <LoginForm handleClose={handleClose} setMessage={setMessage} />
+                    ) : (
+                        <SignupForm handleClose={handleClose} setMessage={setMessage} />
+                    )}
                 </Modal.Body>
                 <Modal.Footer className="justify-content-center">
-                    {/* Link for sign up */}
-                    <a href="/signup" style={{ textDecoration: 'none' }}>New User? - Sign Up</a>
+                    {/* Link for switching between login and signup */}
+                    <Button variant="link" onClick={toggleForm}>
+                        {isLogin ? 'New User? - Sign Up' : 'Already have an account? - Sign In'}
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </header>
