@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const WomenPage = () => {
     const [products, setProducts] = useState([]);
@@ -18,13 +19,15 @@ const WomenPage = () => {
             <Row>
                 {products.map((product) => (
                     <Col md={4} sm={6} key={product.id} className="mb-4">
-                        <Card>
-                            <Card.Img variant="top" src={product.image} />
-                            <Card.Body>
-                                <Card.Title>{product.title}</Card.Title>
-                                <Card.Text>{product.price}</Card.Text>
-                            </Card.Body>
-                        </Card>
+                        <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Card>
+                                <Card.Img variant="top" src={product.image} />
+                                <Card.Body>
+                                    <Card.Title>{product.title}</Card.Title>
+                                    <Card.Text>{product.price}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Link>
                     </Col>
                 ))}
             </Row>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const NewArrivals = () => {
@@ -39,18 +40,20 @@ const NewArrivals = () => {
                 <Row>
                     {products.map((product) => (
                         <Col md={4} sm={6} key={product.id} className="mb-4">
-                            <Card>
-                                <Card.Img
-                                    variant="top"
-                                    src={product.image}
-                                    alt={product.title}
-                                    style={{ height: '250px', objectFit: 'contain' }}
-                                />
-                                <Card.Body>
-                                    <Card.Title className="text-truncate">{product.title}</Card.Title>
-                                    <Card.Text>${product.price.toFixed(2)}</Card.Text>
-                                </Card.Body>
-                            </Card>
+                            <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <Card>
+                                    <Card.Img
+                                        variant="top"
+                                        src={product.image}
+                                        alt={product.title}
+                                        style={{ height: '250px', objectFit: 'contain' }}
+                                    />
+                                    <Card.Body>
+                                        <Card.Title className="text-truncate">{product.title}</Card.Title>
+                                        <Card.Text>${product.price.toFixed(2)}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Link>
                         </Col>
                     ))}
                 </Row>
