@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Navbar, Nav, Container, Modal, Button, Form } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Button, Form, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import LoginForm from '../components/LoginForm'; // Import the LoginForm component
 import SignupForm from '../components/SignupForm'; // Import the SignupForm component
 
@@ -22,13 +23,18 @@ function Header() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link href="/shop">Shop</Nav.Link>
+                            {/*<Nav.Link href="/shop">Shop</Nav.Link>*/}
+                            <NavDropdown title="Shop" id="shop-dropdown">
+                                <NavDropdown.Item as={Link} to="/shop/women">Women</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/shop/men">Men</NavDropdown.Item>
+                            </NavDropdown>
                             <Nav.Link href="/about">About Us</Nav.Link>
                             <Nav.Link href="/contact">Contact Us</Nav.Link>
                         </Nav>
 
                         {/* Account button aligned to the right */}
                         <Nav className="ms-auto">
+                            <Nav.Link href="/cart">Cart</Nav.Link> {/* Add Cart link */}
                             <Nav.Link onClick={handleShow}>Account</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
