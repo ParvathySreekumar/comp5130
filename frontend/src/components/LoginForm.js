@@ -1,11 +1,13 @@
-// frontend/components/LoginForm.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
+import { AuthContext } from '../context/AuthContext'; // Import AuthContext
 
 const LoginForm = ({ handleClose, setMessage }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { setIsAuthenticated } = useContext(AuthContext); // Access AuthContext
+    const { login } = useContext(AuthContext); // Access login function from context
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -14,11 +16,23 @@ const LoginForm = ({ handleClose, setMessage }) => {
                 email,
                 password,
             });
+            console.log('Login Response:', response.data); // Log response
+            login(response.data.token, { email }); // Pass token and user info
             localStorage.setItem('token', response.data.token); // Store JWT
+            console.log('Token saved to localStorage'); // Log success
             setMessage(response.data.message);
+            console.log('Message set successfully'); // Log success
+
+            // Update global authentication state
+            //setIsAuthenticated(true); commenting cuz login already updates this
+
             handleClose(); // Close modal on successful login
         } catch (error) {
+            console.error('Login Error:', error.response?.data || error.message);
+            console.error('Error Details:', error);
+            console.error('Error Response:', error.response);
             setMessage(error.response?.data?.message || 'Login failed');
+            console.log('Message set to error'); // Log success
         }
     };
 

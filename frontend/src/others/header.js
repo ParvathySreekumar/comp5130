@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
-import { Navbar, Nav, Container, Modal, Button, Form, NavDropdown } from 'react-bootstrap';
+import React, { useState, useContext } from 'react';
+import { Navbar, Nav, Container, Modal, Button, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext'; // Import AuthContext
 import LoginForm from '../components/LoginForm'; // Import the LoginForm component
 import SignupForm from '../components/SignupForm'; // Import the SignupForm component
 
 function Header() {
+    const { isAuthenticated, user, logout } = useContext(AuthContext); // Access authentication state and logout function
     const [show, setShow] = useState(false); // Modal visibility state
     const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
-    const [message, setMessage] = useState(''); // Message to display
+    const [message, setMessage] = useState(''); // Message to display (success or error)
 
-    const handleClose = () => setShow(false); // Function to close modal
-    const handleShow = () => setShow(true);  // Function to open modal
+    const handleClose = () => {
+        setShow(false);
+        setMessage(''); // Clear any displayed messages when closing the modal
+    };
 
+    const handleShow = () => setShow(true); // Function to open modal
     const toggleForm = () => setIsLogin(!isLogin); // Toggle between login and signup
 
     return (
@@ -22,20 +27,27 @@ function Header() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/">Home</Nav.Link>
-                            {/*<Nav.Link href="/shop">Shop</Nav.Link>*/}
+                            <Nav.Link as={Link} to="/">Home</Nav.Link>
                             <NavDropdown title="Shop" id="shop-dropdown">
                                 <NavDropdown.Item as={Link} to="/shop/women">Women</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/shop/men">Men</NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Link href="/about">About Us</Nav.Link>
-                            <Nav.Link href="/contact">Contact Us</Nav.Link>
+                            <Nav.Link as={Link} to="/about">About Us</Nav.Link>
+                            <Nav.Link as={Link} to="/contact">Contact Us</Nav.Link>
                         </Nav>
 
-                        {/* Account button aligned to the right */}
+                        {/* Account and Cart links aligned to the right */}
                         <Nav className="ms-auto">
-                            <Nav.Link href="/cart">Cart</Nav.Link> {/* Add Cart link */}
-                            <Nav.Link onClick={handleShow}>Account</Nav.Link>
+                            <Nav.Link as={Link} to="/cart">Cart</Nav.Link> {/* Add Cart link */}
+                            {isAuthenticated ? (
+                                <>
+                                    {/* Display user's name or email if logged in */}
+                                    <Nav.Link disabled>Welcome, {user?.email || 'User'}</Nav.Link>
+                                    <Nav.Link onClick={logout}>Logout</Nav.Link>
+                                </>
+                            ) : (
+                                <Nav.Link onClick={handleShow}>Account</Nav.Link>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -47,6 +59,9 @@ function Header() {
                     <Modal.Title>{isLogin ? 'Sign In' : 'Sign Up'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {message && (
+                        <div className="alert alert-info text-center">{message}</div> // Display feedback messages
+                    )}
                     {/* Show Login Form if isLogin is true, else show Signup Form */}
                     {isLogin ? (
                         <LoginForm handleClose={handleClose} setMessage={setMessage} />

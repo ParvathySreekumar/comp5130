@@ -9,6 +9,8 @@ const cors = require('cors'); // If you're using CORS middleware
 // Import your routes
 const productRoutes = require('./routes/productRoutes');
 const authRoutes = require('./routes/auth');
+const cartRoutes = require('./routes/cartRoutes');
+const cartUpdateRoutes = require('./routes/cartUpdateRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,6 +26,10 @@ app.use('/api/products', productRoutes);
 
 //Use the authentication routes
 app.use('/api/auth', authRoutes);
+
+// Use the cart routes
+app.use('/api/cart', cartRoutes);
+app.use('/api/cart/update', cartUpdateRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
