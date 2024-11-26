@@ -27,8 +27,14 @@ const ProductPage = () => {
         return <div>Loading...</div>; // Show a loading message until the product loads
     }
 
-    const handleAddToCart = () => {
-        addToCart(product.id, 1); // Add 1 quantity of the current product to the cart
+    const handleAddToCart = async () => {
+        try {
+            await addToCart(product.id, 1); // Add 1 quantity of the current product to the cart
+            alert('Product added to cart!');
+        } catch (error) {
+            console.error('Error adding product to cart:', error);
+            alert('Failed to add product to cart.');
+        }
     };
 
     return (
