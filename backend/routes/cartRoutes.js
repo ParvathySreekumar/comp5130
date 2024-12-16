@@ -10,32 +10,25 @@ const axios = require('axios');
 
 // Add an item to the cart
 router.post('/add', authenticateToken, async (req, res) => {
-    console.log('Add to cart route hit');
     const { productId, quantity } = req.body;
-    console.log('Request body:', req.body); // Log incoming request
-    console.log('i am here')
     if (!productId || quantity <= 0) {
         return res.status(400).json({ message: 'Invalid product ID or quantity' });
     }
 
     try {
         // Validate the product using the external API
+        //const apiUrl = `https://fakestoreapi.com/products/${productId}`;
         const apiUrl = `https://fakestoreapi.com/products/${productId}`;
-        console.log('Fetching product from Fake Store API:', apiUrl);
 
         const response = await axios.get(apiUrl);
         const product = response.data; // Assuming the API returns the product details
-        console.log('Product found:', product); // Log product details
 
         if (!product) {
             return res.status(404).json({ message: 'Product not found in external API' });
         }
 
         // Find the user's cart or create a new one
-        console.log('Reached hereeee!'); // Log the current cart
-        console.log('User ID:cartRoutes', req.user.userId);
         let cart = await Cart.findOne({ userId: req.user.userId });
-        console.log('Cart found:', cart); // Log the current cart
 
 
         if (!cart) {
@@ -67,10 +60,12 @@ router.post('/add', authenticateToken, async (req, res) => {
 // Get a user-specific cart
 router.get('/', authenticateToken, async (req, res) => {
     try {
-        const cart = await Cart.findOne({ userId: req.user.userId }).populate('items.productId', 'name price image');
+        //const cart = await Cart.findOne({ userId: req.user.userId }).populate('items.productId', 'name price image');
+        const cart = await Cart.findOne({ userId: req.user.userId });
 
         if (!cart) {
-            return res.status(404).json({ message: 'Cart not found' });
+            //return res.status(404).json({ message: 'Cart not found' });
+            return res.status(200).json({ items: [] });
         }
 
         res.status(200).json(cart);

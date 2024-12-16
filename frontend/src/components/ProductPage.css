@@ -1,0 +1,162 @@
+/* Ensure the container layout */
+.product-page {
+    display: flex;
+    flex-direction: row;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+    gap: 20px;
+    background-color: transparent;
+    /* Ensure no background color */
+    box-shadow: none;
+    /* Remove any shadow */
+    /* Space between image and details */
+}
+
+/* Image styling */
+.product-image {
+    flex: 1;
+    /* Allow image to take one part of the available space */
+    max-width: 70%;
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+    border-radius: 8px;
+    object-fit: cover;
+    /* Adjust image proportions */
+    /*background-color: #f9f9f9;*/
+    box-shadow: none;
+    background-color: none;
+    padding: 10px;
+}
+
+/* Details styling */
+.product-details {
+    flex: 1;
+    /* Allow details to take the other part */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    text-align: left;
+    /* Ensure text aligns left */
+}
+
+.product-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.product-description {
+    font-size: 14px;
+    color: #666;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    /* Light background for padding */
+    padding: 15px;
+    /* Add padding around the description */
+    border-radius: 8px;
+    /* Optional: rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Optional: slight shadow for separation */
+    margin-bottom: 20px;
+}
+
+.product-price {
+    font-size: 28px;
+    font-weight: bold;
+    color: #e63946;
+    /* Red for price */
+    margin-bottom: 20px;
+    /* Space below the price */
+}
+
+/* Details Heading */
+.details-heading {
+    font-size: 20px;
+    font-weight: bold;
+    color: #444;
+    margin-top: 20px;
+    /* Space above the heading */
+    margin-bottom: 10px;
+    /* Space below the heading */
+    text-transform: uppercase;
+    /* Optional: make the heading uppercase */
+    letter-spacing: 1px;
+    /* Optional: slight spacing between letters */
+}
+
+.category-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Size Selector Section */
+.size-selector {
+    margin: 20px 0;
+}
+
+.size-selector h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.size-button {
+    width: 50px;
+    height: 40px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.size-button:hover {
+    background-color: #007bff;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.size-button.selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #0056b3;
+}
+
+/* Sizing Information Box */
+.size-info-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.info-icon {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #007bff;
+    /* Optional: Make the icon blue */
+}

@@ -1,15 +1,21 @@
 import React, { useState, useContext } from 'react';
-import { Navbar, Nav, Container, Modal, Button, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Navbar, Nav, Container, Modal, Button, NavDropdown, Form, FormControl } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../context/AuthContext'; // Import AuthContext
 import LoginForm from '../components/LoginForm'; // Import the LoginForm component
 import SignupForm from '../components/SignupForm'; // Import the SignupForm component
+import '../App.css';
 
 function Header() {
     const { isAuthenticated, user, logout } = useContext(AuthContext); // Access authentication state and logout function
     const [show, setShow] = useState(false); // Modal visibility state
     const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
     const [message, setMessage] = useState(''); // Message to display (success or error)
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setShow(false);
@@ -18,6 +24,20 @@ function Header() {
 
     const handleShow = () => setShow(true); // Function to open modal
     const toggleForm = () => setIsLogin(!isLogin); // Toggle between login and signup
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.get('https://fakestoreapi.com/products'); // Fetch products
+            const filteredProducts = response.data.filter((product) =>
+                product.description.toLowerCase().includes(searchTerm.toLowerCase())
+            ); // Filter by description
+
+            navigate('/search-results', { state: { results: filteredProducts } }); // Navigate to SearchResults page
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
     return (
         <header>
@@ -32,13 +52,28 @@ function Header() {
                                 <NavDropdown.Item as={Link} to="/shop/women">Women</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/shop/men">Men</NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Link as={Link} to="/about">About Us</Nav.Link>
-                            <Nav.Link as={Link} to="/contact">Contact Us</Nav.Link>
+                            <Nav.Link as={Link} to="/help">Help</Nav.Link>
                         </Nav>
+
+                        {/* Search Bar */}
+                        <Form className="d-flex me-3" onSubmit={handleSearch}>
+                            <FormControl
+                                type="search"
+                                placeholder="Search"
+                                className="me-2"
+                                aria-label="Search"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{ borderRadius: '50px', padding: '10px 20px', backgroundColor: '#f8f9fa', border: '1px solid #ddd' }}
+                            />
+                        </Form>
 
                         {/* Account and Cart links aligned to the right */}
                         <Nav className="ms-auto">
-                            <Nav.Link as={Link} to="/cart">Cart</Nav.Link> {/* Add Cart link */}
+                            {/* <Nav.Link as={Link} to="/cart">Cart</Nav.Link>*/}
+                            <Nav.Link as={Link} to="/cart">
+                                <FontAwesomeIcon icon={faShoppingCart} size="lg" />
+                            </Nav.Link>
                             {isAuthenticated ? (
                                 <>
                                     {/* Display user's name or email if logged in */}
@@ -46,7 +81,9 @@ function Header() {
                                     <Nav.Link onClick={logout}>Logout</Nav.Link>
                                 </>
                             ) : (
-                                <Nav.Link onClick={handleShow}>Account</Nav.Link>
+                                <Nav.Link onClick={handleShow}>
+                                    <FontAwesomeIcon icon={faUser} size="lg" /> {/* Account Icon */}
+                                </Nav.Link>
                             )}
                         </Nav>
                     </Navbar.Collapse>

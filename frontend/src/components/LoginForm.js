@@ -2,12 +2,14 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext'; // Import AuthContext
+import { CartContext } from '../context/CartContext';
 
 const LoginForm = ({ handleClose, setMessage }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setIsAuthenticated } = useContext(AuthContext); // Access AuthContext
     const { login } = useContext(AuthContext); // Access login function from context
+    const { fetchCart } = useContext(CartContext); // Use fetchCart from CartContext
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -20,6 +22,7 @@ const LoginForm = ({ handleClose, setMessage }) => {
             login(response.data.token, { email }); // Pass token and user info
             localStorage.setItem('token', response.data.token); // Store JWT
             console.log('Token saved to localStorage'); // Log success
+            fetchCart(); // Fetch the cart immediately after login
             setMessage(response.data.message);
             console.log('Message set successfully'); // Log success
 

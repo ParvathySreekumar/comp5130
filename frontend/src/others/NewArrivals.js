@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../App.css';
 
 const NewArrivals = () => {
     const [products, setProducts] = useState([]); // State to store product data
@@ -11,8 +12,18 @@ const NewArrivals = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('https://fakestoreapi.com/products');
-                setProducts(response.data.slice(0, 12)); // Limit to 12 products
+                // Fetch women's clothing
+                const womenResponse = await axios.get(
+                    "https://fakestoreapi.com/products/category/women's clothing"
+                );
+                // Fetch men's clothing
+                const menResponse = await axios.get(
+                    "https://fakestoreapi.com/products/category/men's clothing"
+                );
+
+                // Combine both results
+                const combinedProducts = [...womenResponse.data, ...menResponse.data].slice(0, 8);
+                setProducts(combinedProducts); // Limit to 12 products
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -39,21 +50,23 @@ const NewArrivals = () => {
                 <h2 className="text-center my-5">New Arrivals</h2>
                 <Row>
                     {products.map((product) => (
-                        <Col md={4} sm={6} key={product.id} className="mb-4">
-                            <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                <Card>
-                                    <Card.Img
-                                        variant="top"
-                                        src={product.image}
-                                        alt={product.title}
-                                        style={{ height: '250px', objectFit: 'contain' }}
-                                    />
-                                    <Card.Body>
-                                        <Card.Title className="text-truncate">{product.title}</Card.Title>
-                                        <Card.Text>${product.price.toFixed(2)}</Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Link>
+                        <Col lg={3} md={4} sm={5} key={product.id} className="mb-4">
+                            <div className="custom-card">
+                                {/* Product Image Section */}
+                                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <div className="custom-card-image">
+                                        <img src={product.image} alt={product.title} />
+                                    </div>
+                                </Link>
+
+                                {/* Product Info Section */}
+                                <div className="custom-card-info">
+                                    <h4 className="custom-card-title">{product.title}</h4>
+                                    <div className="custom-card-price">
+                                        ${product.price.toFixed(2)}
+                                    </div>
+                                </div>
+                            </div>
                         </Col>
                     ))}
                 </Row>

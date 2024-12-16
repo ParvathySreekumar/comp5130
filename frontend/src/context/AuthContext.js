@@ -54,8 +54,6 @@ export const AuthProvider = ({ children }) => {
 
     const login = (token, userInfo) => {
         // When the user logs in successfully
-        console.log('Login Tokennnn:', token);
-        console.log('Login User Infoooo:', userInfo);
         localStorage.setItem('token', token); // Save token in localStorage
         setIsAuthenticated(true);
         setUser(userInfo); // Save user details in state

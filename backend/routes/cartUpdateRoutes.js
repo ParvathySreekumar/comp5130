@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Cart = require('../models/Cart');
 const authenticateToken = require('../middleware/authenticateToken'); // Authentication middleware
+const axios = require('axios');
 
 // Update the quantity of an item in the cart
 router.put('/update', authenticateToken, async (req, res) => {
@@ -13,7 +14,7 @@ router.put('/update', authenticateToken, async (req, res) => {
 
     try {
         // Find the user's cart
-        const cart = await Cart.findOne({ userId: req.user.id });
+        const cart = await Cart.findOne({ userId: req.user.userId });
 
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
@@ -45,14 +46,13 @@ router.put('/update', authenticateToken, async (req, res) => {
 // Remove an item from the cart
 router.delete('/remove', authenticateToken, async (req, res) => {
     const { productId } = req.body;
-
     if (!productId) {
         return res.status(400).json({ message: 'Product ID is required' });
     }
-
     try {
         // Find the user's cart
-        const cart = await Cart.findOne({ userId: req.user.id });
+        const cart = await Cart.findOne({ userId: req.user.userId });
+        console.log('Cart found:', cart); // Log the current cart
 
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });

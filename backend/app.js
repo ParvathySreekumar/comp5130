@@ -18,7 +18,8 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors()); // Enable CORS to allow frontend to communicate with the backend
 app.use(express.json());
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
+app.use(morgan('combined'));
 
 
 // Use the product routes

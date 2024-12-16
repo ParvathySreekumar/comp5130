@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import '../App.css';
 
-const WomenPage = () => {
-    const [products, setProducts] = useState([]);
+const SearchResults = () => {
+    const location = useLocation();
+    const { results } = location.state || { results: [] };
 
-    useEffect(() => {
-        // Fetch products for Women's category
-        fetch("https://fakestoreapi.com/products/category/men's clothing")
-            .then((response) => response.json())
-            .then((data) => setProducts(data))
-            .catch((error) => console.error("Error fetching products:", error));
-    }, []);
+    if (!results.length) {
+        return <Container className="mt-5"><h3>No products match your search.</h3></Container>;
+    }
 
     return (
         <section className="new-arrivals">
             <Container>
-                <h2 className="text-center my-5">Men's Clothing</h2>
+                <h3 className="text-center my-5">Search Results</h3>
                 <Row>
-                    {products.map((product) => (
+                    {results.map((product) => (
                         <Col md={4} sm={6} key={product.id} className="mb-4">
                             <div className="custom-card">
                                 {/* Product Image Section */}
@@ -44,4 +43,4 @@ const WomenPage = () => {
     );
 };
 
-export default WomenPage;
+export default SearchResults;
