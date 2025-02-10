@@ -1,0 +1,74 @@
+/* Apply to all elements */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/*@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap');
+
+body {
+  /*font-family: "PT Sans Narrow", sans-serif;*/
+  font-family: "Parkinsans", sans-serif;
+}
+
+/* Product Card */
+.custom-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: left;
+  background-color: #fff;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 15px;
+  /* Optional to create spacing */
+}
+
+.custom-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Section */
+.custom-card-image {
+  width: 100%;
+  height: 200px;
+  /* Fixed height for the image section */
+  overflow: hidden;
+}
+
+.custom-card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background-color: #f8f8f8;
+  /* Matches the second image's background */
+}
+
+/* Info Section */
+.custom-card-info {
+  padding: 10px 0;
+}
+
+
+/* Product Title */
+.custom-card-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  /* Prevent title overflow */
+  max-width: 90%;
+  /* Limit title width */
+}
+
+/* Price Section */
+.custom-card-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  /* Red color for price */
+}
